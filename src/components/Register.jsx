@@ -1,11 +1,19 @@
 import React, { useState } from "react";
 import Tesla from "../assets/tesla.png";
 import Input from "../ui/Input";
+import { useDispatch, useSelector } from "react-redux";
+import { registerUserStart } from "../counter/CounterSlice";
 
 const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { isLoading } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const loginnn = (e) => {
+    e.preventDefault();
+    dispatch(registerUserStart());
+  };
   return (
     <div className="d-flex align-items-center py-4 bg-body-tertiary text-center">
       <main className="form-signin w-50 m-auto">
@@ -33,8 +41,13 @@ const Register = () => {
             getInfo={setPassword}
             state={password}
           />
-          <button className="btn btn-primary w-100 py-2 mt-3" type="submit">
-            Register
+          <button
+            disabled={isLoading}
+            onClick={loginnn}
+            className="btn btn-primary w-100 py-2 mt-3"
+            type="submit"
+          >
+            {isLoading ? "Loading..." : "Register"}
           </button>
           <p className="mt-5 mb-3 text-body-secondary">© 2017–2024</p>
         </form>

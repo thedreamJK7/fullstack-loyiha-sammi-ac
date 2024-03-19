@@ -13,11 +13,22 @@ export const counterSlice = createSlice({
     },
     loginUserSuccess: (state) => {},
     loginUserFailure: (state) => {},
+    registerUserStart: (state) => {
+      state.isLoading = true;
+    },
+    registerUserSuccess: (state) => {},
+    registerUserFailure: (state) => {},
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { loginUserFailure, loginUserStart, loginUserSuccess } =
-  counterSlice.actions;
+export const {
+  loginUserFailure,
+  loginUserStart,
+  loginUserSuccess,
+  registerUserStart,
+  registerUserSuccess,
+  registerUserFailure,
+} = counterSlice.actions;
 
 export default counterSlice.reducer;
