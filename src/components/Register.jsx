@@ -2,7 +2,12 @@ import React, { useState } from "react";
 import Tesla from "../assets/tesla.png";
 import Input from "../ui/Input";
 import { useDispatch, useSelector } from "react-redux";
-import { registerUserStart } from "../counter/CounterSlice";
+import {
+  registerUserStart,
+  registerUserFailure,
+  registerUserSuccess,
+} from "../counter/CounterSlice";
+import AuthService from "../service/Auth";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -10,9 +15,22 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const { isLoading } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  const loginnn = (e) => {
+  const loginnn = async (e) => {
     e.preventDefault();
     dispatch(registerUserStart());
+    const user = {
+      username: name,
+      email,
+      password,
+    };
+    try {
+      const response = await AuthService.userRegister(user);
+      console.log(response, user);
+      dispatch(registerUserSuccess())
+    } catch (error) {
+      dispatch(registerUserFailure());
+      console.log(error.message);
+    }
   };
   return (
     <div className="d-flex align-items-center py-4 bg-body-tertiary text-center">

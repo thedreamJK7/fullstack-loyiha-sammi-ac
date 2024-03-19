@@ -5,6 +5,7 @@ export const counterSlice = createSlice({
   initialState: {
     isLoading: false,
     isLoggedIn: false,
+    error: null,
     user: null,
   },
   reducers: {
@@ -16,8 +17,14 @@ export const counterSlice = createSlice({
     registerUserStart: (state) => {
       state.isLoading = true;
     },
-    registerUserSuccess: (state) => {},
-    registerUserFailure: (state) => {},
+    registerUserSuccess: (state) => {
+      state.isLoading = false;
+      state.isLoggedIn = true
+    },
+    registerUserFailure: (state) => {
+      state.isLoading = false;
+      state.error = 'error'
+    },
   },
 });
 
