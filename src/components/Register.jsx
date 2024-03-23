@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Tesla from "../assets/tesla.png";
 import Input from "../ui/Input";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,13 +7,15 @@ import {
 } from "../counter/CounterSlice";
 import AuthService from "../service/Auth";
 import Validation from "./validation";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { isLoading } = useSelector((state) => state.auth);
+  const { isLoading, isLoggedIn } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const loginnn = async (e) => {
     e.preventDefault();
     dispatch(signStart());
@@ -24,13 +26,18 @@ const Register = () => {
     };
     try {
       const response = await AuthService.userRegister(user);
-      console.log(response, user);
       dispatch(signSuccess(response.user))
+      navigate("/");
     } catch (error) {
       dispatch(signFailure(error.response.data.errors));
       console.log(error.response.data.errors);
     }
   };
+  useEffect(()=> {
+    if(isLoggedIn) {
+      navigate('/')
+    }
+  }, [])
   return (
     <div className="d-flex align-items-center py-4 bg-body-tertiary text-center">
       <main className="form-signin w-50 m-auto">
