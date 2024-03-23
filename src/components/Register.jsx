@@ -3,11 +3,10 @@ import Tesla from "../assets/tesla.png";
 import Input from "../ui/Input";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  registerUserStart,
-  registerUserFailure,
-  registerUserSuccess,
+  signStart, signSuccess, signFailure
 } from "../counter/CounterSlice";
 import AuthService from "../service/Auth";
+import Validation from "./validation";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -17,7 +16,7 @@ const Register = () => {
   const dispatch = useDispatch();
   const loginnn = async (e) => {
     e.preventDefault();
-    dispatch(registerUserStart());
+    dispatch(signStart());
     const user = {
       username: name,
       email,
@@ -26,10 +25,10 @@ const Register = () => {
     try {
       const response = await AuthService.userRegister(user);
       console.log(response, user);
-      dispatch(registerUserSuccess())
+      dispatch(signSuccess(response.user))
     } catch (error) {
-      dispatch(registerUserFailure());
-      console.log(error.message);
+      dispatch(signFailure(error.response.data.errors));
+      console.log(error.response.data.errors);
     }
   };
   return (
@@ -38,6 +37,7 @@ const Register = () => {
         <form>
           <img className="mb-4" src={Tesla} alt="" width="200" />
           <h1 className="h3 mb-3 fw-normal">Please Register</h1>
+          <Validation />
           <Input
             type="text"
             label="Username"

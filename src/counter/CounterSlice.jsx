@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { setItem } from "../helpers/persistnce-storage";
 
 export const counterSlice = createSlice({
   name: "auth",
@@ -9,33 +10,25 @@ export const counterSlice = createSlice({
     user: null,
   },
   reducers: {
-    loginUserStart: (state) => {
+    signStart: (state, actions) => {
       state.isLoading = true;
     },
-    loginUserSuccess: (state) => {},
-    loginUserFailure: (state) => {},
-    registerUserStart: (state) => {
-      state.isLoading = true;
-    },
-    registerUserSuccess: (state) => {
+    signSuccess: (state, actions) => {
       state.isLoading = false;
-      state.isLoggedIn = true
+      state.isLoggedIn = true;
+      state.user = actions.payload;
+      setItem('token', actions.payload.user.token)
     },
-    registerUserFailure: (state) => {
+    signFailure: (state, actions) => {
       state.isLoading = false;
-      state.error = 'error'
+      state.error = actions.payload;
     },
   },
 });
 
 // Action creators are generated for each case reducer function
 export const {
-  loginUserFailure,
-  loginUserStart,
-  loginUserSuccess,
-  registerUserStart,
-  registerUserSuccess,
-  registerUserFailure,
+  signStart, signSuccess, signFailure
 } = counterSlice.actions;
 
 export default counterSlice.reducer;

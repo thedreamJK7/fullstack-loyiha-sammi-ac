@@ -3,16 +3,28 @@ import Input from '../ui/Input';
 import Tesla from '../assets/tesla.png'
 import { useState } from 'react';
 import { useSelector, useDispatch } from "react-redux";
-import { loginUserStart } from "../counter/CounterSlice";
+import { signStart, signSuccess, signFailure } from "../counter/CounterSlice";
+import AuthService from '../service/Auth';
+import Validation from './validation';
 
 const Login = () => {
     const [name, setName] = useState("");
     const [password, setPassword] = useState("");
     const { isLoading } = useSelector( state => state.auth)
     const dispatch = useDispatch()
-    const loginnn = (e) => {
+    const loginnn = async (e) => {
       e.preventDefault()
-      dispatch(loginUserStart())
+      dispatch(signStart());
+      const user = {
+        email: name,
+        password
+      }
+      try {
+        const response = await AuthService.userLogin(user);
+        dispatch(signSuccess(response))
+      } catch (error) {
+        dispatch(signFailure(error.response.data.errors));
+      }
     }
   return (
     <div className="d-flex align-items-center py-4 bg-body-tertiary text-center">
@@ -20,9 +32,10 @@ const Login = () => {
         <form>
           <img className="mb-4" src={Tesla} alt="" width="200" />
           <h1 className="h3 mb-3 fw-normal">Please sign in</h1>
+          <Validation />
           <Input
-            type="text"
-            label="Username"
+            type="email"
+            label="Email address"
             placeholder="John Doe"
             getInfo={setName}
             state={name}
