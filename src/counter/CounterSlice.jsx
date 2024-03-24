@@ -17,18 +17,23 @@ export const counterSlice = createSlice({
       state.isLoading = false;
       state.isLoggedIn = true;
       state.user = actions.payload;
+      console.log(actions.payload.user.token);
       setItem('token', actions.payload.user.token)
     },
     signFailure: (state, actions) => {
       state.isLoading = false;
       state.error = actions.payload;
     },
+    signOut: (state) => {
+      state.user = null;
+      state.isLoggedIn = false;
+    }
   },
 });
 
 // Action creators are generated for each case reducer function
 export const {
-  signStart, signSuccess, signFailure
+  signStart, signSuccess, signFailure, signOut
 } = counterSlice.actions;
 
 export default counterSlice.reducer;

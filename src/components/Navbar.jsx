@@ -1,10 +1,20 @@
 import React from 'react'
 import Tesla from '../assets/tesla.png'
-import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { remove } from '../helpers/persistnce-storage';
+import { signOut } from '../counter/CounterSlice';
 
 const Navbar = () => {
   const { isLoggedIn, user } = useSelector((state) => state.auth);
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const logOut = () => {
+    remove('token')
+    dispatch(signOut());
+    navigate('/')
+    console.log('Logout');
+  }
   return (
     <div className="container">
       <header className="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
@@ -14,16 +24,18 @@ const Navbar = () => {
         >
           <img src={Tesla} alt="Tesla" style={{ width: "200px" }} />
         </Link>
-        <ul className="nav nav-pills">
+        <ul className="nav nav-pills d-flex align-items-center">
           {isLoggedIn ? (
             <>
               <li className="nav-item">
-                <h1>{user.user.username}</h1>
+                <h1 className='m-0'>{user.user.username}</h1>
+              </li>
+              <li className="nav-item mx-3">
+                <button className="btn btn-success" onClick={logOut}>Log Out</button>
               </li>
             </>
           ) : (
             <>
-              {" "}
               <li className="nav-item">
                 <Link className="nav-link" to={"/login"}>
                   Login
@@ -36,31 +48,6 @@ const Navbar = () => {
               </li>{" "}
             </>
           )}
-          {/* <li className="nav-item">
-            <a href="#" className="nav-link active" aria-current="page">
-              Home
-            </a>
-          </li>
-          <li className="nav-item">
-            <a href="#" className="nav-link">
-              Features
-            </a>
-          </li>
-          <li className="nav-item">
-            <a href="#" className="nav-link">
-              Pricing
-            </a>
-          </li>
-          <li className="nav-item">
-            <a href="#" className="nav-link">
-              FAQs
-            </a>
-          </li>
-          <li className="nav-item">
-            <a href="#" className="nav-link">
-              About
-            </a>
-          </li> */}
         </ul>
       </header>
     </div>

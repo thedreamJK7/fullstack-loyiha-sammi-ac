@@ -37,7 +37,7 @@ const Register = () => {
     if(isLoggedIn) {
       navigate('/')
     }
-  }, [])
+  }, [isLoggedIn])
   return (
     <div className="d-flex align-items-center py-4 bg-body-tertiary text-center">
       <main className="form-signin w-50 m-auto">
