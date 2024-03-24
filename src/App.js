@@ -4,7 +4,9 @@ import { Main, Login, Navbar, Register } from './components'
 import AuthService from './service/Auth'
 import { useDispatch } from 'react-redux'
 import { signSuccess } from './counter/CounterSlice'
+import { getArticleSuccess, getArticleStart } from './counter/ArticleSlice'
 import { getItem } from './helpers/persistnce-storage'
+import Articles from './service/Articles'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -12,17 +14,25 @@ const App = () => {
     try {
       const response = await AuthService.getUser()
       dispatch(signSuccess(response));
-
     } catch (error) {
       
     }
   }
+  const getArticles = async () => {
+    dispatch(getArticleStart());
+    try {
+      const response = await Articles.getArticles()
+      dispatch(getArticleSuccess(response.data.articles));
+    } catch (error) {
+      console.log(error);
+    }
+  }
   useEffect(()=> {
     const token = getItem('token');
-    console.log('Token', token);
     if(token) {
       getUser()
     }
+    getArticles()
   }, [])
   return (
     <div>

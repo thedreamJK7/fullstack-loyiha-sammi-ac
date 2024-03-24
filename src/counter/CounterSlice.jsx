@@ -17,7 +17,6 @@ export const counterSlice = createSlice({
       state.isLoading = false;
       state.isLoggedIn = true;
       state.user = actions.payload;
-      console.log(actions.payload.user.token);
       setItem('token', actions.payload.user.token)
     },
     signFailure: (state, actions) => {
