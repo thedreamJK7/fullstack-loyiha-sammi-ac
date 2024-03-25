@@ -1,11 +1,15 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
+import Loader from '../ui/loader';
+import { useNavigate } from 'react-router-dom';
 
 const Main = () => {
-  const { articles } = useSelector(state=> state.articles)
+  const { articles, isLoading } = useSelector((state) => state.articles);
+  const navigate = useNavigate()
   return (
     <div className="album py-5 bg-body-tertiary">
       <div className="container">
+        { isLoading?<Loader />:'' }
         <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
           {articles.map((item) => (
             <div className="col" key={item.id}>
@@ -30,6 +34,7 @@ const Main = () => {
                       <button
                         type="button"
                         className="btn btn-sm btn-outline-secondary"
+                        onClick={()=> navigate(`/article/${item.slug}`)}
                       >
                         View
                       </button>

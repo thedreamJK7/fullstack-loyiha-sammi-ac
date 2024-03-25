@@ -7,6 +7,7 @@ import { signSuccess } from './counter/CounterSlice'
 import { getArticleSuccess, getArticleStart } from './counter/ArticleSlice'
 import { getItem } from './helpers/persistnce-storage'
 import Articles from './service/Articles'
+import Article from './components/Article'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -41,6 +42,7 @@ const App = () => {
         <Route path='/' element={<Main />}/>
         <Route path='/login' element={<Login />}/>
         <Route path='/register' element={<Register />} />
+        <Route path='/article/:slug' element={<Article />}/>
       </Routes>
     </div>
   );
