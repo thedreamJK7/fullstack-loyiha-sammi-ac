@@ -4,11 +4,10 @@ import { Main, Login, Navbar, Register } from './components'
 import AuthService from './service/Auth'
 import { useDispatch } from 'react-redux'
 import { signSuccess } from './counter/CounterSlice'
-import { getArticleSuccess, getArticleStart } from './counter/ArticleSlice'
 import { getItem } from './helpers/persistnce-storage'
-import Articles from './service/Articles'
 import Article from './components/Article'
 import CreateArticle from './components/CreateArticle'
+import EditArticle from './components/EditArticle'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -36,6 +35,7 @@ const App = () => {
         <Route path='/register' element={<Register />} />
         <Route path='/article/:slug' element={<Article />}/>
         <Route path='/createarticle' element={<CreateArticle />}/>
+        <Route path='/edit-article/:slug' element={<EditArticle />}/>
       </Routes>
     </div>
   );

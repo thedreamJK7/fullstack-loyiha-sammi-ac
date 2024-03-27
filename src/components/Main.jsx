@@ -22,14 +22,14 @@ const Main = () => {
   useEffect(() => {
     getArticles();
   }, []);
-  const deleteArticle = async(slug) => {
+  const deleteArticle = async (slug) => {
     try {
-      await Articles.deleteArticle(slug)
-      getArticles()
-    } catch (error) { 
-      console.log('error');
+      await Articles.deleteArticle(slug);
+      getArticles();
+    } catch (error) {
+      console.log("error");
     }
-  }
+  };
   return (
     <div className="album py-5 bg-body-tertiary">
       <div className="container">
@@ -62,23 +62,27 @@ const Main = () => {
                       >
                         View
                       </button>
-                      { isLoggedIn && user.user.username === item.author.username && (
-                        <>
-                          <button
-                            type="button"
-                            className="btn btn-sm btn-outline-secondary"
-                          >
-                            Edit
-                          </button>
-                          <button
-                            type="button"
-                            className="btn btn-sm btn-outline-danger"
-                            onClick={()=>deleteArticle(item.slug)}
-                          >
-                            Delete
-                          </button>
-                        </>
-                      )}
+                      {isLoggedIn &&
+                        user.user.username === item.author.username && (
+                          <>
+                            <button
+                              type="button"
+                              className="btn btn-sm btn-outline-secondary"
+                              onClick={() =>
+                                navigate(`/edit-article/${item.slug}`)
+                              }
+                            >
+                              Edit
+                            </button>
+                            <button
+                              type="button"
+                              className="btn btn-sm btn-outline-danger"
+                              onClick={() => deleteArticle(item.slug)}
+                            >
+                              Delete
+                            </button>
+                          </>
+                        )}
                     </div>
                     <small className="text-body-secondary text-capitalize">
                       {item.author.username}

@@ -16,6 +16,10 @@ const Articles = {
   async deleteArticle(slug){
     const response = await axios.delete(`/articles/${slug}`)
     return response.data
+  },
+  async putArticle(article, slug) {
+    const response = await axios.put(`/articles/${slug}`, {article});
+    return response.data
   }
 };
 
