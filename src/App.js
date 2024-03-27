@@ -8,6 +8,7 @@ import { getArticleSuccess, getArticleStart } from './counter/ArticleSlice'
 import { getItem } from './helpers/persistnce-storage'
 import Articles from './service/Articles'
 import Article from './components/Article'
+import CreateArticle from './components/CreateArticle'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -19,21 +20,12 @@ const App = () => {
       
     }
   }
-  const getArticles = async () => {
-    dispatch(getArticleStart());
-    try {
-      const response = await Articles.getArticles()
-      dispatch(getArticleSuccess(response.data.articles));
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  
   useEffect(()=> {
     const token = getItem('token');
     if(token) {
       getUser()
     }
-    getArticles()
   }, [])
   return (
     <div>
@@ -43,6 +35,7 @@ const App = () => {
         <Route path='/login' element={<Login />}/>
         <Route path='/register' element={<Register />} />
         <Route path='/article/:slug' element={<Article />}/>
+        <Route path='/createarticle' element={<CreateArticle />}/>
       </Routes>
     </div>
   );

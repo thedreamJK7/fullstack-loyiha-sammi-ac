@@ -40,14 +40,14 @@ const Login = () => {
             type="email"
             label="Email address"
             placeholder="John Doe"
-            getInfo={setName}
+            setState={setName}
             state={name}
           />
           <Input
             type="password"
             label="Password"
             placeholder="Password"
-            getInfo={setPassword}
+            setState={setPassword}
             state={password}
           />
           <button

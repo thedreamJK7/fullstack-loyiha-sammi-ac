@@ -1,15 +1,39 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
-import Loader from '../ui/loader';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import Loader from "../ui/loader";
+import { useNavigate } from "react-router-dom";
+import { getArticleStart, getArticleSuccess } from "../counter/ArticleSlice";
+import Articles from "../service/Articles";
 
 const Main = () => {
   const { articles, isLoading } = useSelector((state) => state.articles);
-  const navigate = useNavigate()
+  const { isLoggedIn, user } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const getArticles = async () => {
+    dispatch(getArticleStart());
+    try {
+      const response = await Articles.getArticles();
+      dispatch(getArticleSuccess(response.data.articles));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    getArticles();
+  }, []);
+  const deleteArticle = async(slug) => {
+    try {
+      await Articles.deleteArticle(slug)
+      getArticles()
+    } catch (error) { 
+      console.log('error');
+    }
+  }
   return (
     <div className="album py-5 bg-body-tertiary">
       <div className="container">
-        { isLoading?<Loader />:'' }
+        {isLoading ? <Loader /> : ""}
         <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
           {articles.map((item) => (
             <div className="col" key={item.id}>
@@ -33,19 +57,32 @@ const Main = () => {
                     <div className="btn-group">
                       <button
                         type="button"
-                        className="btn btn-sm btn-outline-secondary"
-                        onClick={()=> navigate(`/article/${item.slug}`)}
+                        className="btn btn-sm btn-outline-success"
+                        onClick={() => navigate(`/article/${item.slug}`)}
                       >
                         View
                       </button>
-                      <button
-                        type="button"
-                        className="btn btn-sm btn-outline-secondary"
-                      >
-                        Edit
-                      </button>
+                      { isLoggedIn && user.user.username === item.author.username && (
+                        <>
+                          <button
+                            type="button"
+                            className="btn btn-sm btn-outline-secondary"
+                          >
+                            Edit
+                          </button>
+                          <button
+                            type="button"
+                            className="btn btn-sm btn-outline-danger"
+                            onClick={()=>deleteArticle(item.slug)}
+                          >
+                            Delete
+                          </button>
+                        </>
+                      )}
                     </div>
-                    <small className="text-body-secondary text-capitalize">{item.author.username}</small>
+                    <small className="text-body-secondary text-capitalize">
+                      {item.author.username}
+                    </small>
                   </div>
                 </div>
               </div>
@@ -55,6 +92,6 @@ const Main = () => {
       </div>
     </div>
   );
-}
+};
 
-export default Main
+export default Main;

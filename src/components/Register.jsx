@@ -26,11 +26,12 @@ const Register = () => {
     };
     try {
       const response = await AuthService.userRegister(user);
-      dispatch(signSuccess(response.user))
+      dispatch(signSuccess(response))
       navigate("/");
     } catch (error) {
+      console.log("error");
       dispatch(signFailure(error.response.data.errors));
-      console.log(error.response.data.errors);
+      console.log('error');
     }
   };
   useEffect(()=> {
@@ -49,21 +50,21 @@ const Register = () => {
             type="text"
             label="Username"
             placeholder="John Doe"
-            getInfo={setName}
+            setState={setName}
             state={name}
           />
           <Input
             type="email"
             label="Email address"
             placeholder="name@example.com"
-            getInfo={setEmail}
+            setState={setEmail}
             state={email}
           />
           <Input
             type="password"
             label="Password"
             placeholder="Password"
-            getInfo={setPassword}
+            setState={setPassword}
             state={password}
           />
           <button

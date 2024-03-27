@@ -13,7 +13,6 @@ const Navbar = () => {
     remove('token')
     dispatch(signOut());
     navigate('/')
-    console.log('Logout');
   }
   return (
     <div className="container">
@@ -28,10 +27,17 @@ const Navbar = () => {
           {isLoggedIn ? (
             <>
               <li className="nav-item">
-                <h1 className='m-0'>{user.user.username}</h1>
+                <h1 className="m-0">{user.user.username}</h1>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to={"/createarticle"}>
+                  Create Article
+                </Link>
               </li>
               <li className="nav-item mx-3">
-                <button className="btn btn-success" onClick={logOut}>Log Out</button>
+                <button className="btn btn-success" onClick={logOut}>
+                  Log Out
+                </button>
               </li>
             </>
           ) : (
@@ -45,7 +51,7 @@ const Navbar = () => {
                 <Link className="nav-link" to={"/register"}>
                   Register
                 </Link>
-              </li>{" "}
+              </li>
             </>
           )}
         </ul>
