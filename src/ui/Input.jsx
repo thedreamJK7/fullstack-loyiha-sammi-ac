@@ -4,7 +4,6 @@ const Input = ({
   label,
   type = "text",
   state,
-  getInfo,
   placeholder,
   setState,
 }) => {

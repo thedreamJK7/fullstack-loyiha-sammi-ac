@@ -24,8 +24,6 @@ const EditArticle = () => {
   const getSubmitAsync = async (e) => {
     e.preventDefault();
     const article = { title, description, body };
-    console.log(slug);
-    console.log(article, slug);
     dispatch(postArticleStart());
     try {
       dispatch(postArticleSuccess());

@@ -8,6 +8,7 @@ import { getItem } from './helpers/persistnce-storage'
 import Article from './components/Article'
 import CreateArticle from './components/CreateArticle'
 import EditArticle from './components/EditArticle'
+import EditUser from './components/EditUser'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -36,6 +37,7 @@ const App = () => {
         <Route path='/article/:slug' element={<Article />}/>
         <Route path='/createarticle' element={<CreateArticle />}/>
         <Route path='/edit-article/:slug' element={<EditArticle />}/>
+        <Route path='/edit-user/:token' element={<EditUser />}/>
       </Routes>
     </div>
   );

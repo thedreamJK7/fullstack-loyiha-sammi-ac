@@ -13,6 +13,10 @@ const AuthService = {
     const response = await axios.get("/user");
     return response.data
   },
+  async editUser(user){
+    const response = await axios.put(`/user`, {user})
+    return response.data
+  }
 };
 
 export default AuthService;

@@ -14,6 +14,10 @@ const Navbar = () => {
     dispatch(signOut());
     navigate('/')
   }
+  let a;
+  if(user) {
+    a = user.user.token
+  }
   return (
     <div className="container">
       <header className="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
@@ -26,9 +30,12 @@ const Navbar = () => {
         <ul className="nav nav-pills d-flex align-items-center">
           {isLoggedIn ? (
             <>
-              <li className="nav-item">
+              <Link
+                to={`/edit-user/${a}`}
+                className="nav-item text-danger text-decoration-none"
+              >
                 <h1 className="m-0">{user.user.username}</h1>
-              </li>
+              </Link>
               <li className="nav-item">
                 <Link className="nav-link" to={"/createarticle"}>
                   Create Article
